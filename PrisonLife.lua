@@ -6,8 +6,8 @@ local Player = Players.LocalPlayer
 
 local Table = {}
 
-local window = Lib:CreateWindow("Nice")
-window:Section("Section")
+local window = Lib:CreateWindow("Main")
+window:Section("Main")
 
 window:Button("Shutdown game",function()
     game:Shutdown()
