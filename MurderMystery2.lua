@@ -1,4 +1,5 @@
 local MurderMysteryLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/bloodball/-back-ups-for-libs/main/dirt",true))()
+local Notification = loadstring(game:HttpGet("https://raw.githubusercontent.com/insanedude59/notiflib/main/main"))()
 
 local ConfigTable = {}
 
