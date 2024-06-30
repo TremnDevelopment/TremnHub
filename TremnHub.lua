@@ -21,5 +21,8 @@ SupportedWindow:Section("Shooting Games")
 SupportedWindow:Button("Murder Mystery 2",function()
     loadstring(game:HttpGet('https://raw.githubusercontent.com/TremnDevelopment/TremnHub/main/MurderMystery2.lua',true))()
 end)
+SupportedWindow:Button("Prison Life",function()
+    loadstring(game:HttpGet('https://raw.githubusercontent.com/TremnDevelopment/TremnHub/main/PrisonLife.lua',true))()
+end)
 
 Notification:Notification("Tremn Hub","Loaded!","GothamSemibold","Gotham",3)
