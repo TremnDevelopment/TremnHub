@@ -1,0 +1,33 @@
+local letters = {
+  [1] = 'A' or 'a',
+  [2] = 'B' or 'b',
+  [3] = 'C' or 'c',
+  [4] = 'D' or 'd',
+  [5] = 'E' or 'e',
+  [6] = 'F' or 'f',
+  [7] = 'G' or 'g',
+  [8] = 'H' or 'h',
+  [9] = 'I' or 'i',
+  [10] = 'J' or 'j',
+  [11] = 'K' or 'k',
+  [12] = 'L' or 'l',
+  [13] = 'M' or 'm',
+  [14] = 'N' or 'n',
+  [15] = 'O' or 'o',
+  [16] = 'P' or 'p',
+  [17] = 'Q' or 'q',
+  [18] = 'R' or 'r',
+  [19] = 'S' or 's',
+  [20] = 'T' or 't',
+  [21] = 'U' or 'u',
+  [22] = 'V' or 'v',
+  [23] = 'W' or 'w',
+  [24] = 'X' or 'x',
+  [25] = 'Y' or 'y',
+  [26] = 'Z' or 'z'
+}
+
+local hubName = 'Nebula'
+local hubVersion = 'Version-'math.randomseed()..''..math.random(1,999)..'-'..math.random(1,999)
+
+return hubVersion
