@@ -84,4 +84,4 @@ instances:AddButton({
         rejoinPlayer(game.PlaceId, game.Players.LocalPlayer)
     end
 });
-OrionLib:Init()
+TycoonRNG:Init()
