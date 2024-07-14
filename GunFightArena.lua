@@ -21,7 +21,9 @@ if game.PlaceId == 15514727567 or game.PlaceId == 14518422161 then
     FOVCircle.Visible = false
     
     local function createBotChams(Bot)
-        if game.Workspace[Bot.Name]:FindFirstChild('BotHighlight') == nil then
+        if Workspace[Bot.Name]:FindFirstChild('BotHighlight') == nil then
+            if Players[Bot.Name]:GetAttribute('Team') == LocalPlayer:GetAttribute('Team') then return end
+            if Workspace[Bot.Name]:FindFirstChild('Humanoid').Health < 0 then return end
             local highlight = Instance.new('Highlight')
             highlight.Name = 'BotHighlight'
             highlight.DepthMode = "AlwaysOnTop"
@@ -35,6 +37,8 @@ if game.PlaceId == 15514727567 or game.PlaceId == 14518422161 then
     
     local function createPlayerChams(player)
         if player.Character:FindFirstChild("PlayerHighlight") == nil then
+            if player.Team == LocalPlayer.Team then return end
+            if player.Character:FindFirstChild('Humanoid').Health < 0 then return end
             local highlight = Instance.new('Highlight')
             highlight.Name = 'PlayerHighlight'
             highlight.DepthMode = "AlwaysOnTop"
@@ -145,7 +149,6 @@ if game.PlaceId == 15514727567 or game.PlaceId == 14518422161 then
         return nearestTarget
     end
 
-
     _G.AimbotEnabled = false
     MainSection:AddToggle({
         Name = "Enable Aimbot",
@@ -196,14 +199,14 @@ if game.PlaceId == 15514727567 or game.PlaceId == 14518422161 then
     RunService.Heartbeat:Connect(function()
         if not _G.ChamEnabled then return end
         for _, player in ipairs(Players:GetChildren()) do
-            if _G.selectedChamTarget == 'Players' and player:IsA('Player') and player.Character:FindFirstChild('Humanoid').Health > 0 then
+            if _G.selectedChamTarget == 'Players' and player:IsA('Player') and player ~= LocalPlayer then
                 createPlayerChams(player)
-            elseif _G.selectedChamTarget == 'Bots' and player:IsA('Folder') and Workspace[player.Name]:FindFirstChild('Humanoid').Health > 0 then
+            elseif _G.selectedChamTarget == 'Bots' and player:IsA('Folder') then
                 createBotChams(player)
             elseif _G.selectedChamTarget == 'Both' then
-                if player:IsA('Player') and player ~= LocalPlayer and player.Character:FindFirstChild('Humanoid').Health > 0 then
+                if player:IsA('Player') and player ~= LocalPlayer then
                     createPlayerChams(player)
-                elseif player:IsA('Folder') and Workspace[player.Name]:FindFirstChild('Humanoid').Health > 0 then
+                elseif player:IsA('Folder') then
                     createBotChams(player)
                 end
             end
