@@ -101,11 +101,10 @@ local function findNearestPlayer()
     
     for _, player in ipairs(Players:GetPlayers()) do
         if player ~= localPlayer and player.Team ~= localPlayer.Team then
-            createPlayerChams(player)
             local humanoid = player.Character and player.Character:FindFirstChild("Humanoid")
             local bodyTarget = player.Character and player.Character:FindFirstChild(_G.selectedTargetBody)
             
-            if humanoid and bodyTarget and player.Team ~= LocalPlayer.Team then
+            if humanoid and bodyTarget and player.Team ~= LocalPlayer.Team and humanoid.Health > 0 then
                 local screenPos, onScreen = camera:WorldToViewportPoint(bodyTarget.Position)
                 if onScreen then
                     local distance = (Vector2.new(screenPos.X, screenPos.Y) - FOVCircle.Position).magnitude
@@ -129,11 +128,10 @@ local function findNearestBot()
     
     for _, player in ipairs(Players:GetChildren()) do
         if player:IsA('Folder') then
-            createBotChams(player)
             local humanoid = Workspace[player.Name] and Workspace[player.Name]:FindFirstChild("Humanoid")
             local bodyTarget = Workspace[player.Name] and Workspace[player.Name]:FindFirstChild(_G.selectedTargetBody)
             
-            if humanoid and bodyTarget and LocalPlayer:GetAttribute('Team') ~= player:GetAttribute('Team') then
+            if humanoid and bodyTarget and LocalPlayer:GetAttribute('Team') ~= player:GetAttribute('Team') and humanoid.Health > 0 then
                 local screenPos, onScreen = camera:WorldToViewportPoint(bodyTarget.Position)
                 if onScreen then
                     local distance = (Vector2.new(screenPos.X, screenPos.Y) - FOVCircle.Position).magnitude
@@ -159,15 +157,13 @@ local function findNearestTarget()
         local humanoid
         local bodyTarget
         if player:IsA('Folder') then
-            createBotChams(player)
             humanoid = Workspace[player.Name] and Workspace[player.Name]:FindFirstChild("Humanoid")
             bodyTarget = Workspace[player.Name] and Workspace[player.Name]:FindFirstChild(_G.selectedTargetBody)
         elseif player:IsA('Player') then
-            createPlayerChams(player)
             humanoid = Players[player.Name].Character and Players[player.Name].Character:FindFirstChild("Humanoid")
             bodyTarget = Players[player.Name].Character and Players[player.Name].Character:FindFirstChild(_G.selectedTargetBody)
         end
-        if humanoid and bodyTarget and LocalPlayer:GetAttribute('Team') ~= player:GetAttribute('Team') then
+        if humanoid and bodyTarget and LocalPlayer:GetAttribute('Team') ~= player:GetAttribute('Team') and humanoid.Health > 0 then
             local screenPos, onScreen = camera:WorldToViewportPoint(bodyTarget.Position)
             if onScreen then
                 local distance = (Vector2.new(screenPos.X, screenPos.Y) - FOVCircle.Position).magnitude
