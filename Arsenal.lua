@@ -65,7 +65,7 @@ local function findNearestPlayer()
             local humanoid = player.Character and player.Character:FindFirstChild("Humanoid")
             local head = player.Character and player.Character:FindFirstChild("Head")
             
-            if humanoid and head and player.Team ~= LocalPlayer.Team then
+            if humanoid and head and player.Team ~= LocalPlayer.Team and humanoid.Health > 0 then
                 local screenPos, onScreen = camera:WorldToViewportPoint(head.Position)
                 if onScreen then
                     local distance = (Vector2.new(screenPos.X, screenPos.Y) - FOVCircle.Position).magnitude
@@ -324,5 +324,9 @@ task.spawn(function()
         if not _G.CustomWalkspeed then return end
         Humanoid.WalkSpeed = _G.Walkspeed
         game.Workspace[LocalPlayer.Name].Movetitude.Value = 0
+    end)
+
+    RunService.RenderStepped:Connect(function()
+        game.Workspace.RageStraight.Movetitude.Value = 0
     end)
 end)
