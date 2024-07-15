@@ -199,3 +199,4 @@ RunService.Heartbeat:Connect(function()
         createPlayerChams(player)
     end
 end)
+PrisonEscapeV2:Init()
