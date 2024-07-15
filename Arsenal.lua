@@ -315,3 +315,4 @@ task.spawn(function()
         game.Workspace.RageStraight.Movetitude.Value = 0
     end)
 end)
+Arsenal:Init()
