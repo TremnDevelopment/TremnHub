@@ -319,8 +319,7 @@ task.spawn(function()
             createPlayerChams(player)
         end
     end)
-    local Humanoid = game:GetService("Players").LocalPlayer.Character.Humanoid
-    Humanoid:GetPropertyChangedSignal("WalkSpeed"):Connect(function()
+    LocalPlayer.Character.Humanoid:GetPropertyChangedSignal("WalkSpeed"):Connect(function()
         if not _G.CustomWalkspeed then return end
         Humanoid.WalkSpeed = _G.Walkspeed
         game.Workspace[LocalPlayer.Name].Movetitude.Value = 0
@@ -329,4 +328,6 @@ task.spawn(function()
     RunService.RenderStepped:Connect(function()
         game.Workspace.RageStraight.Movetitude.Value = 0
     end)
+
+
 end)
