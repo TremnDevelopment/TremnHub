@@ -120,6 +120,24 @@ MainFeatures:AddButton({
   	end
 })
 
+local function isDoorsDestroyed()
+    if Workspace:WaitForChild('AllPrisonDoors') == nil then
+        return true
+    end
+    return false
+end
+
+_G.destroyedAllDoors = isDoorsDestroyed()
+MainFeatures:AddButton({
+	Name = "Destroy All Prison Doors",
+	Callback = function()
+        if _G.destroyedAllDoors then
+            return
+        end
+        Workspace.AllPrisonDoors:Destroy()
+  	end
+})
+
 _G.AimbotEnabled = false
 MainFeatures:AddToggle({
 	Name = "Aimbot",
@@ -166,7 +184,7 @@ RunService.RenderStepped:Connect(function()
             end
 
             local head = currentTarget.Character and currentTarget.Character:FindFirstChild("Head")
-            if head then
+            if head and currentTarget.Team ~= game:GetService('Teams')['Picking Team'] then
                 local direction = (head.Position - camera.CFrame.Position).unit
                 local newCFrame = CFrame.new(camera.CFrame.Position, camera.CFrame.Position + direction * 10)
                 camera.CFrame = newCFrame
