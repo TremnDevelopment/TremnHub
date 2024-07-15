@@ -130,19 +130,13 @@ MainFeatures:AddSlider({
 	end
 })
 
-_G.HitboxExtenderEnabled = false
-MainFeatures:AddToggle({
+MainFeatures:AddButton({
 	Name = "Hitbox Extender",
-	Default = false,
-	Callback = function(Value)
-		_G.HitboxExtenderEnabled = Value
+	Callback = function()
         local players = getplrsname()
         local plr = game[players].LocalPlayer
         coroutine.resume(coroutine.create(function()
             while wait(1) do
-                if not _G.HitboxExtenderEnabled then
-                    return
-                end
                 coroutine.resume(coroutine.create(function()
                     for _,v in pairs(game[players]:GetPlayers()) do
                         if v.Name ~= plr.Name and v.Character then
@@ -153,15 +147,6 @@ MainFeatures:AddToggle({
             end
         end))
 	end
-})
-
-_G.FOVCircleEnabled = false
-MainFeatures:AddToggle({
-    Name = "Enable Field of View Circle",
-    Default = false,
-    Callback = function(Value)
-        _G.FOVCircleEnabled = Value
-    end
 })
 
 _G.ChamEnabled = false
@@ -211,8 +196,8 @@ WeaponModifications:AddButton({
     Name = "Infinite Ammo",
     Callback = function()
         while wait() do
-            game:GetService("Players").LocalPlayer.PlayerGui.GUI.Client.Variables.ammocount.Value = 999
-            game:GetService("Players").LocalPlayer.PlayerGui.GUI.Client.Variables.ammocount2.Value = 999
+            LocalPlayer.PlayerGui.GUI.Client.Variables.ammocount.Value = 999
+            LocalPlayer.PlayerGui.GUI.Client.Variables.ammocount2.Value = 999
         end
     end
 })
@@ -256,7 +241,7 @@ task.spawn(function()
         if not _G.AimbotEnabled then return end
         if input.UserInputType == Enum.UserInputType.MouseButton2 then
             Aiming = true
-            if _G.FOVCircleEnabled then updateFOVCircle() end
+            updateFOVCircle()
         end
     end)
 
@@ -265,7 +250,7 @@ task.spawn(function()
         if not _G.AimbotEnabled then return end
         if input.UserInputType == Enum.UserInputType.MouseButton2 then
             Aiming = false
-            if _G.FOVCircleEnabled then updateFOVCircle() end
+            updateFOVCircle()
             currentTarget = nil
         end
     end)
@@ -319,7 +304,8 @@ task.spawn(function()
             createPlayerChams(player)
         end
     end)
-    LocalPlayer.Character.Humanoid:GetPropertyChangedSignal("WalkSpeed"):Connect(function()
+    local Humanoid = game:GetService("Players").LocalPlayer.Character.Humanoid
+    Humanoid:GetPropertyChangedSignal("WalkSpeed"):Connect(function()
         if not _G.CustomWalkspeed then return end
         Humanoid.WalkSpeed = _G.Walkspeed
         game.Workspace[LocalPlayer.Name].Movetitude.Value = 0
@@ -328,6 +314,4 @@ task.spawn(function()
     RunService.RenderStepped:Connect(function()
         game.Workspace.RageStraight.Movetitude.Value = 0
     end)
-
-
 end)
