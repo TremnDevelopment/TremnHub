@@ -6,6 +6,18 @@ local Players = game:GetService("Players")
 local LocalPlayer = Players.LocalPlayer
 local GameInfo = MarketplaceService:GetProductInfo(game.PlaceId)
 
+local function createKavoLibrary(libraryInfo: table): table?
+    local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
+
+    local LibraryWindow = Library.CreateLib(libraryInfo["LibraryName"], libraryInfo["LibraryTheme"])
+
+    return LibraryWindow
+end
+
+local function createLibraryTab(library: table, tabName: string)
+    return library:NewTab(tabName)
+end
+
 -- Validate we're in the correct game
 if game.PlaceId == 126884695634066 and GameInfo.Name == "[☀️] Grow a Garden 🍏" then
     local InventoryService = require(ReplicatedStorage:WaitForChild("Modules"):WaitForChild("InventoryService"))
@@ -55,8 +67,48 @@ if game.PlaceId == 126884695634066 and GameInfo.Name == "[☀️] Grow a Garden 
         return nil
     end
 
-    -- Harvesting logic
-    task.spawn(function()
+    local KavoUI = createKavoLibrary({
+        ["LibraryName"] = "[☀️] Grow a Garden 🍏",
+        ["LibraryTheme"] = "Sentinel"
+    })
+
+    local Main = createLibraryTab(KavoUI, "Main")
+
+    local PlayerSection = Main:NewSection("Player Optimizations")
+    local OtherSection = Main:NewSection("Others")
+
+    local CurrentEvents = createLibraryTab(KavoUI, "Active Events")
+
+    local SummerHarvest = CurrentEvents:NewSection("Summer Harvest")
+    
+    local AutoSummerHarvest, AutoSummerHarvestMode, InsertOnlyFull
+
+    SummerHarvest:NewDropdown("Auto Summer Harvest Mode", "The mode of the summer harvest mode", {"Slow", "Fast", "Instant"}, function(currentOption)
+        AutoSummerHarvestMode = currentOption
+    end)
+    
+    
+    SummerHarvest:NewToggle("Auto Summer Harvest", "Automatically puts fruits into the summer harvest cart", function(state)
+        while RunService.Heartbeat:Wait() do
+            if not state then break end
+
+            if AutoSummerHarvestMode == "Slow" then
+                
+            elseif AutoSummerHarvestMode == "Fast" then
+                for _, fruit in pairs(LocalPlayer.Backpack:GetChildren()) do
+
+                end
+            elseif AutoSummerHarvestMode == "Instant" then
+                if InsertOnlyFull and InventoryService:IsMaxInventory() then
+                    ReplicatedStorage:WaitForChild("GameEvents"):WaitForChild("SummerHarvestRemoteEvent"):FireServer("SubmitAllPlants")
+                else
+                    ReplicatedStorage:WaitForChild("GameEvents"):WaitForChild("SummerHarvestRemoteEvent"):FireServer("SubmitAllPlants")
+                end
+            end
+        end
+    end)
+
+    --[[task.spawn(function()
         local garden = GetPlayerGarden(LocalPlayer.Name)
         if not garden then
             warn("No garden found for player.")
@@ -91,5 +143,5 @@ if game.PlaceId == 126884695634066 and GameInfo.Name == "[☀️] Grow a Garden 
                 end
             end
         end
-    end)
+    end)]]
 end
